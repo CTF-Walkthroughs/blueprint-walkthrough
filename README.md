@@ -1,3 +1,5 @@
+![image](https://github.com/CTF-Walkthroughs/blueprint-walkthrough/assets/97861439/328bebaf-6fbd-4e8b-84dd-e9c9b60fa206)
+
 # blueprint-walkthrough
 This is a CTF walkthrough of the machine blueprint on THM
 
